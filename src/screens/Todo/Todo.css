@@ -1,0 +1,156 @@
+/* ===========================================================
+   TODOS — DESIGN DARK NEON
+   =========================================================== */
+
+.todos-container {
+  padding: 24px;
+  padding-bottom: 90px;
+}
+
+/* ------------------ TITULO ------------------ */
+.title {
+  color: var(--neon-pink);
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 8px var(--neon-pink);
+}
+
+/* ------------------ INPUT ------------------ */
+.add-task-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.add-task-box input {
+  flex: 1;
+  padding: 14px;
+  border-radius: 14px;
+  background: #0a0a0a;
+  border: 1px solid #222;
+  color: white;
+  font-size: 15px;
+}
+
+.add-task-box input:focus {
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+.add-task-box button {
+  padding: 10px 16px;
+  border-radius: 14px;
+  border: none;
+  background: var(--neon-purple);
+  color: #fff;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.add-task-box button:hover {
+  transform: scale(1.05);
+}
+
+/* ===========================================================
+   TWO COLUMN GRID
+   =========================================================== */
+
+.tasks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* Title of each column */
+.column-title {
+  text-align: center;
+  font-size: 17px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #222;
+}
+
+.column-title.left {
+  color: var(--neon-green);
+}
+
+.column-title.right {
+  color: var(--neon-blue);
+}
+
+/* Each column */
+.task-column {
+  background: #0b0b0b;
+  border: 1px solid #111;
+  border-radius: 14px;
+  padding: 14px;
+  min-height: 220px;
+  transition: 0.25s;
+}
+
+.task-column:hover {
+  box-shadow: 0 0 12px rgba(255,255,255,0.08);
+}
+
+/* Empty message */
+.empty-box {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+}
+
+.empty-box svg {
+  margin-bottom: 10px;
+}
+
+/* ===========================================================
+   TASK CARDS
+   =========================================================== */
+
+.task-card {
+  background: #0a0a0a;
+  border: 1px solid #222;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: 0.25s;
+  cursor: grab;
+}
+
+.task-card:hover {
+  transform: scale(1.02);
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 10px var(--neon-blue);
+}
+
+.task-card.completed {
+  opacity: 0.75;
+  border-color: var(--neon-green);
+  box-shadow: 0 0 10px var(--neon-green);
+}
+
+.task-text {
+  flex: 1;
+  font-size: 15px;
+}
+
+/* Buttons inside each card */
+.check-btn,
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #aaa;
+  transition: 0.2s;
+}
+
+.check-btn:hover {
+  color: var(--neon-green);
+}
+
+.delete-btn:hover {
+  color: #ff4d4d;
+}

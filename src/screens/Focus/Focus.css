@@ -1,0 +1,81 @@
+.focus-container {
+  padding: 24px;
+  text-align: center;
+  padding-bottom: 90px;
+}
+
+.focus-title {
+  font-size: 24px;
+  color: var(--neon-blue);
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* TIMER CIRCULAR */
+.timer-circle {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 4px solid var(--neon-purple);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle, #0a0a0a, #000);
+  box-shadow: 0 0 20px var(--neon-purple);
+  margin-bottom: 30px;
+  transition: 0.3s;
+}
+
+.timer-circle span {
+  font-size: 42px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 12px var(--neon-purple);
+}
+
+/* BOTONES */
+.focus-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.focus-btn {
+  background: #0c0c0c;
+  border: 1px solid #222;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.25s ease;
+}
+
+.focus-btn:hover {
+  transform: scale(1.05);
+}
+
+.focus-btn.start {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  box-shadow: 0 0 14px var(--neon-green);
+}
+
+.focus-btn.pause {
+  border-color: var(--neon-pink);
+  color: var(--neon-pink);
+  box-shadow: 0 0 14px var(--neon-pink);
+}
+
+.focus-btn.reset {
+  border-color: var(--neon-blue);
+  color: var(--neon-blue);
+  box-shadow: 0 0 14px var(--neon-blue);
+}
+
+.focus-btn.reset:hover,
+.focus-btn.start:hover,
+.focus-btn.pause:hover {
+  filter: brightness(1.2);
+}
