@@ -6,6 +6,7 @@ import Home from './screens/Home/Home';
 import Focus from './screens/Focus/Focus';
 import AI from './screens/AI/AI';
 import Profile from './screens/Profile/Profile';
+import Onboarding from './components/Onboarding/Onboarding';
 
 function App() {
   const [tab, setTab] = useState('home');
@@ -41,6 +42,7 @@ function App() {
 
   return (
     <>
+      <Onboarding />
       {renderTab()}
       <BottomTabs
         current={tab}

@@ -14,6 +14,7 @@ interface Task {
 export default function Todos() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [input, setInput] = useState('');
+  const [draggedTaskId, setDraggedTaskId] = useState<number | null>(null);
 
   // Cargar tareas desde localStorage v2
   useEffect(() => {
@@ -68,13 +69,15 @@ export default function Todos() {
     setTasks(updated);
   };
 
-  // Drag handlers
+  // Drag handlers (desktop)
   const onDragStart = (e: any, id: number) => {
     e.dataTransfer.setData('taskId', id.toString());
   };
 
   const onDrop = (completed: boolean, e: any) => {
-    const taskId = Number(e.dataTransfer.getData('taskId'));
+    const taskId = e.dataTransfer ? Number(e.dataTransfer.getData('taskId')) : draggedTaskId;
+    if (!taskId) return;
+
     const updated = tasks.map((t) => {
       if (t.id === taskId) {
         return {
@@ -86,6 +89,51 @@ export default function Todos() {
       return t;
     });
     setTasks(updated);
+    setDraggedTaskId(null);
+  };
+
+  // Touch handlers (mobile)
+  const onTouchStart = (e: React.TouchEvent, id: number) => {
+    setDraggedTaskId(id);
+    e.currentTarget.classList.add('dragging');
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    e.currentTarget.classList.remove('dragging');
+    // Si hay una tarea arrastrada, buscar el elemento bajo el toque
+    if (draggedTaskId) {
+      const touch = e.changedTouches[0];
+      const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+      
+      // Buscar la columna padre
+      const column = elementBelow?.closest('.task-column');
+      if (column) {
+        const isCompleted = column.classList.contains('completed') || 
+                           column.querySelector('.column-title.left') !== null;
+        handleTouchDrop(isCompleted);
+      }
+      setDraggedTaskId(null);
+    }
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault();
+  };
+
+  const handleTouchDrop = (completed: boolean) => {
+    if (draggedTaskId) {
+      const updated = tasks.map((t) => {
+        if (t.id === draggedTaskId) {
+          return {
+            ...t,
+            completed,
+            completedAt: completed ? new Date().toISOString().split('T')[0] : undefined,
+          };
+        }
+        return t;
+      });
+      setTasks(updated);
+    }
   };
 
   const pending = tasks.filter((t) => !t.completed);
@@ -109,7 +157,7 @@ export default function Todos() {
       <div className="tasks-grid">
         {/* COMPLETADAS */}
         <div
-          className="task-column"
+          className="task-column completed-column"
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => onDrop(true, e)}
         >
@@ -127,6 +175,9 @@ export default function Todos() {
                 className="task-card completed"
                 draggable
                 onDragStart={(e) => onDragStart(e, task.id)}
+                onTouchStart={(e) => onTouchStart(e, task.id)}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
               >
                 <button className="check-btn" onClick={() => toggleTask(task.id)}>
                   <CheckCircle size={22} />
@@ -144,7 +195,7 @@ export default function Todos() {
 
         {/* PENDIENTES */}
         <div
-          className="task-column"
+          className="task-column pending-column"
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => onDrop(false, e)}
         >
@@ -162,6 +213,9 @@ export default function Todos() {
                 className="task-card"
                 draggable
                 onDragStart={(e) => onDragStart(e, task.id)}
+                onTouchStart={(e) => onTouchStart(e, task.id)}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
               >
                 <button className="check-btn" onClick={() => toggleTask(task.id)}>
                   <Circle size={22} />

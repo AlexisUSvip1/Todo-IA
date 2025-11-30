@@ -58,6 +58,7 @@ export default function Week({ reload }: { reload: boolean }) {
   const [events, setEvents] = useState<EventData[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [draggedTask, setDraggedTask] = useState<Task | null>(null);
 
   const today = new Date();
   const todayIndex = today.getDay() === 0 ? 6 : today.getDay() - 1;
@@ -203,6 +204,13 @@ export default function Week({ reload }: { reload: boolean }) {
                   e.currentTarget.classList.add('dragging');
                 }}
                 onDragEnd={(e) => e.currentTarget.classList.remove('dragging')}
+                onTouchStart={(e) => {
+                  setDraggedTask(task);
+                  e.currentTarget.classList.add('dragging');
+                }}
+                onTouchEnd={(e) => {
+                  e.currentTarget.classList.remove('dragging');
+                }}
               >
                 <p className="task-text">{task.text}</p>
                 <span className="task-type">{task.type}</span>
@@ -232,6 +240,28 @@ export default function Week({ reload }: { reload: boolean }) {
           const hour = Math.floor(y / 50) + 6;
 
           handleDropTask(task, day, hour);
+        }}
+        onTouchEnd={(e) => {
+          if (!draggedTask) return;
+
+          const touch = e.changedTouches[0];
+          const rect = e.currentTarget.getBoundingClientRect();
+
+          const x = touch.clientX - rect.left;
+          const y = touch.clientY - rect.top;
+
+          const columnWidth = rect.width / 7;
+          const dayIndex = Math.floor(x / columnWidth);
+          
+          if (dayIndex >= 0 && dayIndex < weekDays.length) {
+            const day = weekDays[dayIndex].full;
+            const hour = Math.floor(y / 50) + 6;
+            handleDropTask(draggedTask, day, hour);
+            setDraggedTask(null);
+          }
+        }}
+        onTouchMove={(e) => {
+          e.preventDefault();
         }}
       >
         <DndContext>
