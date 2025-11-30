@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { User, Trophy, Calendar, Target, Settings, Download, Trash2, Edit2, Save, X } from 'lucide-react';
+import {  Trophy, Target, Settings, Download, Trash2, Edit2, Save, X } from 'lucide-react';
 import './Profile.css';
 
 interface UserProfile {
@@ -61,7 +61,6 @@ export default function Profile() {
   // Calcular estadísticas
   useEffect(() => {
     const tasks = JSON.parse(localStorage.getItem('tasks_v2') || '[]');
-    const events = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
 
     const completed = tasks.filter((t: any) => t.completed && t.completedAt);
     const scheduled = tasks.filter((t: any) => t.scheduled);
@@ -115,7 +114,6 @@ export default function Profile() {
   useEffect(() => {
     const sync = () => {
       const tasks = JSON.parse(localStorage.getItem('tasks_v2') || '[]');
-      const events = JSON.parse(localStorage.getItem('calendarEvents') || '[]');
 
       const completed = tasks.filter((t: any) => t.completed && t.completedAt);
       const scheduled = tasks.filter((t: any) => t.scheduled);

@@ -1,12 +1,12 @@
 import { Calendar } from 'react-big-calendar';
 import { useDndContext } from '@dnd-kit/core';
 
-export function DndCalendar(props) {
+export function DndCalendar(props: any) {
   const dnd = useDndContext();
 
   return (
     <>
-      <Calendar {...props} draggableAccessor={() => true} resizable />
+      <Calendar {...props} />
 
       {dnd.active && (
         <div

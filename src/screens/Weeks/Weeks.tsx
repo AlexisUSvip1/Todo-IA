@@ -6,7 +6,7 @@ import { es } from 'date-fns/locale';
 import { DndContext } from '@dnd-kit/core';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { dateFnsLocalizer } from 'react-big-calendar';
+import { dateFnsLocalizer, type EventProps } from 'react-big-calendar';
 import { DndCalendar } from '../../rbc-dnd-kit/DndCalendar';
 
 interface Task {
@@ -38,7 +38,8 @@ const localizer = dateFnsLocalizer({
 // ===============================
 // CUSTOM EVENT VIEW
 // ===============================
-const EventComponent = ({ event }: { event: EventData }) => {
+const EventComponent = (props: EventProps<EventData>) => {
+  const event = props.event as EventData;
   const start = event.start.toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
@@ -236,12 +237,11 @@ export default function Week({ reload }: { reload: boolean }) {
         <DndContext>
           <DndCalendar
             localizer={localizer}
-            events={events}
-            draggableAccessor={() => true}
-            onEventDrop={moveEvent}
-            onEventResize={resizeEvent}
-            onSelectEvent={onSelectEvent} // 👈 NUEVO
-            components={{ event: EventComponent }}
+            events={events as any}
+            onEventDrop={moveEvent as any}
+            onEventResize={resizeEvent as any}
+            onSelectEvent={onSelectEvent as any}
+            components={{ event: EventComponent as any }}
             defaultView="week"
             views={['week']}
             step={60}
