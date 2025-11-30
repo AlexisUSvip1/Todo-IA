@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type JSX } from 'react';
 import { ChevronRight, Home, ListTodo, Calendar, Timer, Sparkles, X } from 'lucide-react';
 import './Onboarding.css';
 
